@@ -18,24 +18,9 @@ class AuthorController extends AbstractController
     #[Route('/author', name: 'app_author')]
     public function list(Request $req,AuthorRepository $repo): Response
     {
-        // ona changemen here
-        $authors = $repo->findAll();
-        $authorsOrdred = $repo->getAuthorsOrderedByEmail();
-        $form = $this->createForm(AuthorSearchType::class);
-        $form->handleRequest($req);
-        if($form->isSubmitted()){
-            $searchText = $form->getData('input');
-            $authors = $repo->getAuthorsByUsername($searchText);
-            return $this->render('author/index.html.twig', [
-                'authors' => $authors,
-                'authorsOrdred'=>$authorsOrdred,
-                'f'=>$form->createView()
-            ]);
-        }
-        return $this->render('author/index.html.twig', [
-            'authors' => $authors,
-            'authorsOrdred'=>$authorsOrdred,
-            'f'=>$form->createView()
+        $list=$repo->findAll();
+        return $this->render('author/index.html.twig',[
+            'list'=> $list
         ]);
     }
      #[Route('/authorS/add', name: 'app_authorS_add')]
